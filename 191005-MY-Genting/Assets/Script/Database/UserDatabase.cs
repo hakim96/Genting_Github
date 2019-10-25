@@ -22,22 +22,44 @@ public class UserDatabase : MonoBehaviour
         
     }
     
-    public void InsertData(string name, string phone, string email, string memberid, string vouchernumber, string voucherprize)
+    public void InsertData(string name, string phone, string email, string status, string memberid, string referencecode)
     {
         UserDb mLocationDb = new UserDb();
-        mLocationDb.addData(new UserEntity(name, phone, email, memberid, vouchernumber, voucherprize));
+        mLocationDb.addData(new UserEntity(name, phone, email, status, memberid, referencecode));
         mLocationDb.close();
     }
 
-    public void UpdateData(int i)
+    
+    public void UpdateDataOnline(UserEntity i)
     {
-        myList[i]._status = "new";
+        i._onlinestatus = "new";
         UserDb mLocationDb2 = new UserDb();
-        mLocationDb2.updateData(myList[i]);
+        mLocationDb2.updateData(i);
         mLocationDb2.close();
     }
 
-    public void GetData()
+    public void GetDataByOnlineStatus()
+    {
+        UserDb mLocationDb3 = new UserDb();
+        System.Data.IDataReader reader = mLocationDb3.getDataByString("new");
+        while (reader.Read())
+        {
+            UserEntity entity = new UserEntity(int.Parse(reader[0].ToString()),
+                                               reader[1].ToString(),
+                                               reader[2].ToString(),
+                                               reader[3].ToString(),
+                                               reader[4].ToString(),
+                                               reader[5].ToString(),
+                                               reader[6].ToString(),
+                                               reader[7].ToString(),
+                                               reader[8].ToString());
+
+            myList.Add(entity);
+        }
+        mLocationDb3.close();
+    }
+
+    public void GetAllData()
     {
         UserDb mLocationDb3 = new UserDb();
         System.Data.IDataReader reader = mLocationDb3.getAllData();
@@ -56,5 +78,11 @@ public class UserDatabase : MonoBehaviour
             myList.Add(entity);
         }
         mLocationDb3.close();
+    }
+
+
+    public void ClearList()
+    {
+        myList = new List<UserEntity>();
     }
 }

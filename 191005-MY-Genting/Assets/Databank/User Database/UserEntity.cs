@@ -14,25 +14,25 @@ namespace DataBank
         public string _email;
         public string _status;
         public string _memberid;
-        public string _vouchernumber;
-        public string _voucherprize;
+        public string _referencecode;
+        public string _onlinestatus;
         public string _dateCreated; // Auto generated timestamp
 
         //for inserting user after given voucher
-        public UserEntity(string name, string phone, string email, string memberid, string vouchernumber, string voucherprize)
+        public UserEntity(string name, string phone, string email, string status, string memberid, string referencecode)
         {
             _name = name;
             _phone = phone;
             _email = email;
-            _status = "new";
+            _status = status;
             _memberid = memberid;
-            _vouchernumber = vouchernumber;
-            _voucherprize = voucherprize;
+            _referencecode = referencecode;
             _dateCreated = "";
+            _onlinestatus = "new";
         }
 
         //for getting data
-        public UserEntity(int id2, string name2, string phone2, string email2, string status2, string memberid2, string vouchernumber2, string voucherprize2, string dateCreated2)
+        public UserEntity(int id2, string name2, string phone2, string email2, string status2, string memberid2, string referencecode2, string onlinestatus2, string dateCreated2)
         {
             _id = id2;
             _name = name2;
@@ -40,8 +40,8 @@ namespace DataBank
             _email = email2;
             _status = status2;
             _memberid = memberid2;
-            _vouchernumber = vouchernumber2;
-            _voucherprize = voucherprize2;
+            _referencecode = referencecode2;
+            _onlinestatus = onlinestatus2;
             _dateCreated = dateCreated2;
         }
 

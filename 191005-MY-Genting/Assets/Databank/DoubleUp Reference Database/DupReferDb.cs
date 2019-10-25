@@ -5,58 +5,68 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace DataBank{
-	public class LocationDb : SqliteHelper {
-		private const String CodistanTag = "Codistan: LocationDb:\t";
-        
-        private const String TABLE_NAME = "Voucher_Stock";
-        private const String KEY_ID = "id";
-        private const String KEY_TYPE = "type";
-        private const String KEY_STOCK = "stock";
-		private const String KEY_DATE = "date";
-        private String[] COLUMNS = new String[] {KEY_ID, KEY_TYPE, KEY_STOCK, KEY_DATE};
+namespace DataBank
+{
+    public class DupReferDb : SqliteHelper
+    {
+        private const String CodistanTag = "Codistan: DupReferDb:\t";
 
-        public LocationDb() : base()
+        private const String TABLE_NAME = "Dup_Reference";
+        private const String KEY_ID = "id";
+        private const String KEY_USERPHONE = "user_phone";
+        private const String KEY_NAME = "name";
+        private const String KEY_PHONE = "phone";
+        private const String KEY_EMAIL = "email";
+        private const String KEY_STATUSONLINE = "status_online";
+        private const String KEY_DATE = "date";
+        private String[] COLUMNS = new String[] { KEY_ID, KEY_USERPHONE, KEY_NAME, KEY_PHONE, KEY_EMAIL, KEY_STATUSONLINE, KEY_DATE };
+
+        public DupReferDb() : base()
         {
             IDbCommand dbcmd = getDbCommand();
             dbcmd.CommandText = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                KEY_TYPE + " TEXT, " +
-                KEY_STOCK + " INTEGER, " +
+                KEY_USERPHONE + " TEXT, " +
+                KEY_NAME + " TEXT, " +
+                KEY_PHONE + " TEXT, " +
+                KEY_EMAIL + " TEXT, " +
+                KEY_STATUSONLINE + " TEXT, " +
                 KEY_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
             dbcmd.ExecuteNonQuery();
         }
 
-        public void addData(LocationEntity location)
+        public void addData(DupReferEntity location)
         {
             IDbCommand dbcmd = getDbCommand();
             dbcmd.CommandText =
                 "INSERT INTO " + TABLE_NAME
                 + " ( "
-                + KEY_TYPE + ", "
-                + KEY_STOCK + " ) "
+                + KEY_USERPHONE + ", "
+                + KEY_NAME + ", "
+                + KEY_PHONE + ", "
+                + KEY_EMAIL + ", "
+                + KEY_STATUSONLINE + " ) "
 
                 + "VALUES ( '"
-                + location._type + "', '"
-                + location._stock.ToString() + "' )";
+                + location._userphone + "', '"
+                + location._name + "', '"
+                + location._phone + "', '"
+                + location._email + "', '"
+                + location._onlinestatus + "' )";
             dbcmd.ExecuteNonQuery();
         }
 
-        public void updateData(LocationEntity location, int id)
+        public void updateDataStatus(DupReferEntity location)
         {
-
             IDbCommand dbcmd = getDbCommand();
             dbcmd.CommandText =
                 "UPDATE " + TABLE_NAME
-                + " SET " 
-                + KEY_STOCK + "='" 
-                + location._stock.ToString() + "'" 
-                + "WHERE " 
-                + KEY_ID + "='" 
-                + id.ToString() + "'";
-
-            Debug.Log("Update Data : " + KEY_STOCK + ": " + location._stock);
-            Debug.Log("UPDATE ID : " + location._id);
+                + " SET "
+                + KEY_STATUSONLINE + "='"
+                + location._onlinestatus + "'"
+                + "WHERE "
+                + KEY_ID + "='"
+                + location._id + "'";
 
             dbcmd.ExecuteNonQuery();
         }
@@ -72,7 +82,7 @@ namespace DataBank{
 
             IDbCommand dbcmd = getDbCommand();
             dbcmd.CommandText =
-                "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + " = '" + str + "'";
+                "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_STATUSONLINE + " = '" + str + "'";
             return dbcmd.ExecuteReader();
         }
 
@@ -86,7 +96,7 @@ namespace DataBank{
             dbcmd.ExecuteNonQuery();
         }
 
-		public override void deleteDataById(int id)
+        public override void deleteDataById(int id)
         {
             base.deleteDataById(id);
         }
@@ -110,5 +120,5 @@ namespace DataBank{
                 "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DATE + " DESC LIMIT 1";
             return dbcmd.ExecuteReader();
         }
-	}
+    }
 }
