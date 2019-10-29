@@ -11,15 +11,15 @@ namespace DataBank
     {
         private const String CodistanTag = "Codistan: UserDb:\t";
 
-        private const String TABLE_NAME = "User_Redeem";
+        private const String TABLE_NAME = "User";
         private const String KEY_ID = "id";
         private const String KEY_NAME = "name";
         private const String KEY_PHONE = "phone";
         private const String KEY_EMAIL = "email";
         private const String KEY_STATUS = "status";
-        private const String KEY_MEMBERID = "memberid";
-        private const String KEY_VOUCHERNUMBER = "vouchernumber";
-        private const String KEY_VOUCHERPRIZE = "voucherprize";
+        private const String KEY_MEMBERID = "card_number";
+        private const String KEY_REFERENCECODE = "reference_code";
+        private const String KEY_STATUSONLINE = "status_online";
         private const String KEY_DATE = "date";
         private String[] COLUMNS = new String[] { KEY_ID, KEY_NAME, KEY_PHONE, KEY_DATE };
 
@@ -33,8 +33,8 @@ namespace DataBank
                 KEY_EMAIL + " TEXT, " +
                 KEY_STATUS + " TEXT, " +
                 KEY_MEMBERID + " TEXT, " +
-                KEY_VOUCHERNUMBER + " TEXT, " +
-                KEY_VOUCHERPRIZE + " TEXT, " +
+                KEY_REFERENCECODE + " TEXT, " +
+                KEY_STATUSONLINE + " TEXT, " +
                 KEY_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
             dbcmd.ExecuteNonQuery();
         }
@@ -50,8 +50,8 @@ namespace DataBank
                 + KEY_EMAIL + ", "
                 + KEY_STATUS + ", "
                 + KEY_MEMBERID + ", "
-                + KEY_VOUCHERNUMBER + ", "
-                + KEY_VOUCHERPRIZE + " ) "
+                + KEY_REFERENCECODE + ", "
+                + KEY_STATUSONLINE + " ) "
 
                 + "VALUES ( '"
                 + user._name + "', '"
@@ -59,8 +59,8 @@ namespace DataBank
                 + user._email + "', '"
                 + user._status + "', '"
                 + user._memberid + "', '"
-                + user._vouchernumber + "', '"
-                + user._voucherprize + "' )";
+                + user._referencecode + "', '"
+                + user._onlinestatus + "' )";
             dbcmd.ExecuteNonQuery();
         }
 
@@ -70,14 +70,11 @@ namespace DataBank
             dbcmd.CommandText =
                 "UPDATE " + TABLE_NAME
                 + " SET "
-                + KEY_STATUS + "='"
-                + user._status + "'"
+                + KEY_STATUSONLINE + "='"
+                + user._onlinestatus + "'"
                 + "WHERE "
                 + KEY_ID + "='"
                 + user._id.ToString() + "'";
-
-            Debug.Log("Update Data : " + KEY_PHONE + ": " + user._phone);
-            Debug.Log("UPDATE ID : " + user._id);
 
             dbcmd.ExecuteNonQuery();
         }
@@ -93,7 +90,7 @@ namespace DataBank
 
             IDbCommand dbcmd = getDbCommand();
             dbcmd.CommandText =
-                "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + " = '" + str + "'";
+                "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_STATUSONLINE + " = '" + str + "'";
             return dbcmd.ExecuteReader();
         }
 
