@@ -6,9 +6,11 @@ using DataBank;
 
 public class OnlineDatabase : MonoBehaviour
 {
-    public const string userURL = "https://www.google.com/";
-    public const string dupreferURL = "https://www.google.com/";
-    public const string voucherdistributionURL = "https://www.google.com/";
+  //  public const string userURL = "http://191005-my-genting.unicom-interactive-digital.com/public/api/submit-player-data/name/Daniel/email/danieltang3434@gmail.com/contact/+60175959981/reference_code/47381901/card_number/6548975315425687/isNewMember/1/register_datetime/2019-10-30";
+    public const string userURL = "http://191005-my-genting.unicom-interactive-digital.com/public/api/submit-player-data/name/Daniel/email/danieltang3434@gmail.com/contact/+60175959981/reference_code/47381901/card_number/6548975315425687/isNewMember/1/register_datetime/2019-10-30 17:51:23";
+  // cannot connect to destination host  public const string userURL = "191005-my-genting.unicom-interactive-digital.com/public/api/submit-player-data/name/Daniel/email/danieltang3434@gmail.com/contact/+60175959981/reference_code/47381901/card_number/6548975315425687/isNewMember/1/register_datetime/2019-10-30";
+    public const string dupreferURL = "http://191005-my-genting.unicom-interactive-digital.com/public/api/submit-reference-data/referer_contact/+60175959981/referral_name/Kai";
+    public const string voucherdistributionURL = "http://191005-my-genting.unicom-interactive-digital.com/public/api/submit-voucher_distribution-data/player_contact/+60175959981/voucher_code/TheBackeryRM10";
 
     public UserDatabase userdb;
     public DupReferDatabase duprdb;
@@ -25,6 +27,8 @@ public class OnlineDatabase : MonoBehaviour
     {
         
     }
+
+    [ContextMenu("Sync")]
     #region Sync User Data Online
     public void SyncUserData()
     {
@@ -44,12 +48,18 @@ public class OnlineDatabase : MonoBehaviour
             form.AddField("card_number", a._memberid);
             form.AddField("reference_code", a._referencecode);
             form.AddField("register_datetime", a._dateCreated);
+          //  using (UnityWebRequest www = UnityWebRequest.Post(WWW.EscapeURL(userURL), form))
             using (UnityWebRequest www = UnityWebRequest.Post(userURL, form))
             {
+                //Debug.Log(WWW.EscapeURL(userURL));
+                Debug.Log(userURL);
+
                 yield return www.SendWebRequest();
 
                 if (www.isNetworkError || www.isHttpError)
                 {
+                    if (www.isNetworkError) Debug.Log("isNetworkError");
+                    if (www.isHttpError) Debug.Log("isHttpError");
                     Debug.Log(www.error);
                     break;
                 }

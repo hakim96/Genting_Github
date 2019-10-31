@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class KeyboardScript : MonoBehaviour
 {
 
+    public AudioSource clickSound;
+
     private void OnEnable()
     {
         if (Application.platform == RuntimePlatform.Android)
@@ -30,14 +32,15 @@ public class KeyboardScript : MonoBehaviour
 
     public void alphabetFunction(string alphabet)
     {
-    
+        clickSound.Play();
         inputTextField.text=inputTextField.text + alphabet;
 
     }
 
     public void BackSpace()
     {
-        if(inputTextField.text.Length>0) inputTextField.text= inputTextField.text.Remove(inputTextField.text.Length-1);
+        clickSound.Play();
+        if (inputTextField.text.Length>0) inputTextField.text= inputTextField.text.Remove(inputTextField.text.Length-1);
     }
 
     public void CloseAllLayouts()
@@ -50,7 +53,7 @@ public class KeyboardScript : MonoBehaviour
 
     public void ShowLayout(GameObject SetLayout)
     {
-        
+        clickSound.Play();
         CloseAllLayouts();
         SetLayout.SetActive(true);
 
